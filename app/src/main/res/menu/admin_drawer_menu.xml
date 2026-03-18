@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/group_main">
+        <item
+            android:id="@+id/nav_dashboard"
+            android:icon="@drawable/ic_dashboard"
+            android:title="Dashboard"/>
+        <item
+            android:id="@+id/nav_songs"
+            android:icon="@drawable/ic_music_note"
+            android:title="Quản lý Bài hát"/>
+        <item
+            android:id="@+id/nav_artists"
+            android:icon="@drawable/ic_artist"
+            android:title="Quản lý Nghệ sĩ"/>
+        <item
+            android:id="@+id/nav_albums"
+            android:icon="@drawable/ic_album"
+            android:title="Quản lý Album"/>
+        <item
+            android:id="@+id/nav_users"
+            android:icon="@drawable/ic_people"
+            android:title="Quản lý Người dùng"/>
+    </group>
+    <group android:id="@+id/group_secondary">
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings"
+            android:title="Cài đặt"/>
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="Đăng xuất"/>
+    </group>
+</menu>
+

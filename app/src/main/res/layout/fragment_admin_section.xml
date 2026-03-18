@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_admin_main"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/iv_section_icon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/ic_music_note"
+        android:background="@drawable/bg_avatar_circle"
+        android:padding="18dp"
+        android:alpha="0.7"/>
+
+    <TextView
+        android:id="@+id/tv_section_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Phần này đang phát triển"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tv_section_sub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Chức năng sẽ sớm ra mắt"
+        android:textColor="#80FFFFFF"
+        android:textSize="14sp"/>
+
+</LinearLayout>
+

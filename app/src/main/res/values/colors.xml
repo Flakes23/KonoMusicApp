@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Admin Dashboard Colors -->
+    <color name="admin_primary">#1A1A2E</color>
+    <color name="admin_surface">#16213E</color>
+    <color name="admin_card_bg">#0F3460</color>
+    <color name="admin_accent">#E94560</color>
+    <color name="admin_accent_purple">#7B2FBE</color>
+    <color name="admin_text_primary">#FFFFFF</color>
+    <color name="admin_text_secondary">#B0BEC5</color>
+    <color name="admin_toolbar">#0D1B2A</color>
+
+    <!-- Stat Card Accent Colors -->
+    <color name="stat_songs">#FF6B6B</color>
+    <color name="stat_users">#4ECDC4</color>
+    <color name="stat_albums">#FFE66D</color>
+    <color name="stat_artists">#A29BFE</color>
+
+    <!-- Genre Chart Colors -->
+    <color name="genre_pop">#FF6B6B</color>
+    <color name="genre_rock">#A29BFE</color>
+    <color name="genre_hiphop">#4ECDC4</color>
+    <color name="genre_jazz">#FFE66D</color>
+    <color name="genre_edm">#FD79A8</color>
+
+    <!-- Activity Type Colors -->
+    <color name="activity_upload">#55EFC4</color>
+    <color name="activity_delete">#FF7675</color>
+    <color name="activity_edit">#FDCB6E</color>
+    <color name="activity_user">#74B9FF</color>
+
+    <!-- Divider & border -->
+    <color name="divider_color">#1FFFFFFF</color>
+    <color name="card_stroke">#2FFFFFFF</color>
+</resources>
+
