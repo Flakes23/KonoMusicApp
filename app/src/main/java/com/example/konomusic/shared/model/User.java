@@ -9,6 +9,7 @@ public class User {
     private String email;
     private String displayName;
     private String createdAt;
+    private String avatarUrl; // Thêm trường avatarUrl
 
     // Constructor
     public User() {}
@@ -32,5 +33,6 @@ public class User {
     public String getCreatedAt() { return createdAt; }
     public void setCreatedAt(String createdAt) { this.createdAt = createdAt; }
 
+    // Aliases for compatibility
+    public String getAvatarUrl() { return avatarUrl; }
 }
-

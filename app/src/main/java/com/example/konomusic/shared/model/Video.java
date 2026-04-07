@@ -57,6 +57,12 @@ public class Video implements Serializable {
     public String getFetchedAt() { return fetchedAt; }
     public void setFetchedAt(String fetchedAt) { this.fetchedAt = fetchedAt; }
 
+    // Aliases for compatibility
+    public String getArtist() { return channelName; }
+    public String getThumbnail() { return thumbnailUrl; }
+    public int getDuration() { return (int)(durationMs / 1000); }
+    public String getPreviewUrl() { return youtubeId; }
+
     @Override
     public String toString() {
         return "Video{" +
@@ -70,4 +76,3 @@ public class Video implements Serializable {
     }
 
 }
-

@@ -40,5 +40,6 @@ public class Playlist implements Serializable {
     public String getCreatedAt() { return createdAt; }
     public void setCreatedAt(String createdAt) { this.createdAt = createdAt; }
 
+    // Aliases for compatibility
+    public int getVideoCount() { return (int)(videos != null ? videos.size() : 0); }
 }
-

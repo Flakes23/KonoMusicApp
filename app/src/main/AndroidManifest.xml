@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -15,15 +16,35 @@
         android:theme="@style/Theme.KonoMusic"
         android:name=".KonoMusicApp">
 
-        <!-- Admin Login Activity -->
+        <!-- =============== UNIFIED LOGIN (Entry Point) =============== -->
         <activity
-            android:name=".admin.ui.activities.AdminLoginActivity"
-            android:exported="true">
+            android:name=".UnifiedLoginActivity"
+            android:exported="true"
+            android:theme="@style/Theme.KonoMusic.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Unified Register Activity -->
+        <activity
+            android:name=".UnifiedRegisterActivity"
+            android:exported="true"
+            android:theme="@style/Theme.KonoMusic.Login" />
+
+        <!-- =============== CLIENT ACTIVITIES =============== -->
+        <!-- Main Activity -->
+        <activity
+            android:name=".client.ui.activities.MainActivity"
+            android:exported="true" />
+
+        <!-- Player Activity -->
+        <activity
+            android:name=".client.ui.activities.PlayerActivity"
+            android:exported="true" />
+
+        <!-- =============== ADMIN ACTIVITIES =============== -->
 
         <!-- Admin Main Activity -->
         <activity

@@ -23,11 +23,9 @@ import com.example.konomusic.admin.ui.activities.ViewAnalyticsActivity;
  */
 public class AdminHomeFragment extends Fragment {
 
-    private LinearLayout cardSubmitVideo;
-    private LinearLayout cardManageCuration;
-    private LinearLayout cardAnalytics;
-    private Button btnLogout;
-    private TextView textAdminWelcome;
+    private Button btnUploadVideo;
+    private Button btnManageContent;
+    private Button btnViewReports;
 
     @Nullable
     @Override
@@ -40,61 +38,57 @@ public class AdminHomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        initViews(view);
-        setupListeners();
-        displayAdminInfo();
+        try {
+            initViews(view);
+            setupListeners();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * Khởi tạo các view
      */
     private void initViews(View view) {
-        cardSubmitVideo = view.findViewById(R.id.card_submit_video);
-        cardManageCuration = view.findViewById(R.id.card_manage_curation);
-        cardAnalytics = view.findViewById(R.id.card_analytics);
-        btnLogout = view.findViewById(R.id.btn_admin_logout);
-        textAdminWelcome = view.findViewById(R.id.text_admin_welcome);
+        try {
+            btnUploadVideo = view.findViewById(R.id.btn_upload_video);
+            btnManageContent = view.findViewById(R.id.btn_manage_content);
+            btnViewReports = view.findViewById(R.id.btn_view_reports);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * Setup listeners
      */
     private void setupListeners() {
-        cardSubmitVideo.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), SubmitVideoActivity.class);
-            startActivity(intent);
-        });
+        try {
+            if (btnUploadVideo != null) {
+                btnUploadVideo.setOnClickListener(v -> {
+                    Intent intent = new Intent(getActivity(), SubmitVideoActivity.class);
+                    startActivity(intent);
+                });
+            }
 
-        cardManageCuration.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ManageCurationActivity.class);
-            startActivity(intent);
-        });
+            if (btnManageContent != null) {
+                btnManageContent.setOnClickListener(v -> {
+                    Intent intent = new Intent(getActivity(), ManageCurationActivity.class);
+                    startActivity(intent);
+                });
+            }
 
-        cardAnalytics.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ViewAnalyticsActivity.class);
-            startActivity(intent);
-        });
-
-        btnLogout.setOnClickListener(v -> logoutAdmin());
-    }
-
-    /**
-     * Hiển thị thông tin Admin
-     */
-    private void displayAdminInfo() {
-        String adminEmail = "admin@konomusic.com"; // TODO: Get from SharedPreferences
-        textAdminWelcome.setText("Welcome back!");
-    }
-
-    /**
-     * Đăng xuất Admin
-     */
-    private void logoutAdmin() {
-        // TODO: Clear session
-        if (getActivity() instanceof com.example.konomusic.admin.ui.activities.AdminMainActivity) {
-            ((com.example.konomusic.admin.ui.activities.AdminMainActivity) getActivity()).logoutAdmin();
+            if (btnViewReports != null) {
+                btnViewReports.setOnClickListener(v -> {
+                    Intent intent = new Intent(getActivity(), ViewAnalyticsActivity.class);
+                    startActivity(intent);
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
 
 }
 

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/admin_primary">
+
+    <!-- Thumbnail -->
+    <ImageView
+        android:id="@+id/thumbnail"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="24dp"
+        android:background="@color/admin_surface_light" />
+
+    <!-- Title & Artist -->
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:layout_marginBottom="8dp"
+        android:textColor="@color/admin_text_primary" />
+
+    <TextView
+        android:id="@+id/artist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/admin_text_secondary"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Seekbar -->
+    <SeekBar
+        android:id="@+id/seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:progressTint="@color/admin_accent" />
+
+    <!-- Time -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="24dp">
+        <TextView
+            android:id="@+id/current_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="0:00"
+            android:textColor="@color/admin_text_secondary" />
+        <TextView
+            android:id="@+id/total_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:text="0:00"
+            android:textColor="@color/admin_text_secondary" />
+    </LinearLayout>
+
+    <!-- Controls -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="24dp">
+
+        <Button
+            android:id="@+id/prev_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:text="❮"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/play_button"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:text="▶"
+            android:textSize="32sp"
+            android:layout_marginHorizontal="16dp"
+            android:backgroundTint="@color/admin_accent" />
+
+        <Button
+            android:id="@+id/next_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:text="❯"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <!-- Action Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/like_button"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="♡ Like"
+            android:layout_marginEnd="4dp" />
+
+        <Button
+            android:id="@+id/playlist_button"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="📋 Playlist"
+            android:layout_marginHorizontal="4dp" />
+
+        <Button
+            android:id="@+id/share_button"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="🔗 Share"
+            android:layout_marginStart="4dp" />
+    </LinearLayout>
+</LinearLayout>
+
