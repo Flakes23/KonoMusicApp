@@ -1,6 +1,79 @@
 <resources>
     <string name="app_name">KonoMusic</string>
-    <string name="nav_open">Mở menu</string>
-    <string name="nav_close">Đóng menu</string>
-    <string name="admin_dashboard">Bảng điều khiển Admin</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="nav_home">Trang chủ</string>
+    <string name="nav_search">Tìm kiếm</string>
+    <string name="nav_album">Album</string>
+    <string name="nav_library">Thư viện</string>
+
+    <string name="search_title">Tìm kiếm</string>
+    <string name="search_hint">Tìm bài hát, tác giả, album...</string>
+    <string name="search_empty">Không tìm thấy kết quả</string>
+    <string name="search_section_songs">Bài hát</string>
+    <string name="search_section_artists">Tác giả</string>
+    <string name="search_section_albums">Album</string>
+
+    <string name="auth_title_login">Đăng nhập</string>
+    <string name="auth_title_register">Đăng ký</string>
+    <string name="auth_subtitle">Đăng nhập để lưu mục yêu thích và playlist. Bạn vẫn có thể nghe nhạc với chế độ khách.</string>
+    <string name="auth_display_name">Tên hiển thị</string>
+    <string name="auth_email">Email</string>
+    <string name="auth_password">Mật khẩu</string>
+    <string name="auth_confirm_password">Nhập lại mật khẩu</string>
+    <string name="auth_login">Đăng nhập</string>
+    <string name="auth_register">Đăng ký</string>
+    <string name="auth_open_register">Tạo tài khoản mới</string>
+    <string name="auth_back_login">Quay lại đăng nhập</string>
+    <string name="auth_continue_guest">Nghe nhạc với khách</string>
+    <string name="auth_invalid_display_name">Vui lòng nhập tên hiển thị</string>
+    <string name="auth_invalid_email">Email không hợp lệ</string>
+    <string name="auth_invalid_password">Mật khẩu tối thiểu 6 ký tự</string>
+    <string name="auth_confirm_not_match">Mật khẩu xác nhận không khớp</string>
+    <string name="auth_login_success">Đăng nhập thành công</string>
+    <string name="auth_login_failed">Đăng nhập thất bại</string>
+    <string name="auth_register_success">Đăng ký thành công</string>
+    <string name="auth_register_failed">Đăng ký thất bại</string>
+    <string name="player_favorite">Yêu thích</string>
+    <string name="player_add_to_playlist">Thêm playlist</string>
+    <string name="player_favorite_added">Đã thêm vào yêu thích</string>
+    <string name="player_favorite_removed">Đã xóa khỏi yêu thích</string>
+    <string name="player_playlist_choose_title">Chọn playlist</string>
+    <string name="player_playlist_create_new">+ Tạo playlist mới</string>
+    <string name="player_playlist_new_hint">Tên playlist</string>
+    <string name="player_playlist_new_title">Tạo playlist</string>
+    <string name="player_playlist_created_and_added">Đã tạo playlist và thêm bài hát</string>
+    <string name="player_playlist_added">Đã thêm bài hát vào playlist</string>
+    <string name="player_login_required">Vui lòng đăng nhập để dùng tính năng này</string>
+    <string name="song_actions_title">Tùy chọn bài hát</string>
+
+    <string name="account_menu">Tài khoản</string>
+    <string name="account_login">Đăng nhập</string>
+    <string name="account_logout">Đăng xuất</string>
+    <string name="account_logout_success">Đã đăng xuất, đang ở chế độ khách</string>
+    <string name="library_guest_message">Đăng nhập để đồng bộ Yêu thích và Playlist của bạn trên mọi thiết bị.</string>
+    <string name="library_favorites_title">Yêu thích của tôi</string>
+    <string name="library_playlists_title">Playlist của tôi</string>
+    <string name="library_empty_favorites">Chưa có bài hát yêu thích.</string>
+    <string name="library_empty_playlists">Chưa có playlist nào.</string>
+    <string name="library_playlist_song_count">%1$d bài hát</string>
+    <string name="playlist_detail_back">Quay lại</string>
+    <string name="library_playlist_detail_empty">Playlist này chưa có bài hát.</string>
+    <string name="library_remove_song">Xóa khỏi playlist</string>
+    <string name="library_remove_song_success">Đã xóa bài khỏi playlist</string>
+    <string name="library_rename_playlist">Đổi tên playlist</string>
+    <string name="library_delete_playlist">Xóa playlist</string>
+    <string name="library_delete_playlist_confirm">Bạn có chắc muốn xóa "%1$s"?</string>
+    <string name="library_rename_success">Đổi tên playlist thành công</string>
+    <string name="library_delete_success">Đã xóa playlist</string>
+
+    <string name="auth_invalid_credentials">Email hoặc mật khẩu không đúng</string>
+    <string name="auth_email_in_use">Email này đã được sử dụng</string>
+    <string name="auth_configuration_not_found">Lỗi cấu hình Firebase Auth (CONFIGURATION_NOT_FOUND). Hãy bật Email/Password trong Firebase Console và kiểm tra google-services.json.</string>
+    <string name="playlist_name_dialog_subtitle">Đặt tên rõ ràng để bạn dễ tìm lại playlist sau này.</string>
+    <string name="playlist_rename_dialog_subtitle">Đổi tên playlist để phù hợp nội dung hiện tại.</string>
+    <string name="playlist_picker_subtitle">Chọn playlist có sẵn hoặc tạo playlist mới để thêm bài hát.</string>
+    <string name="player_playlist_empty">Bạn chưa có playlist nào.</string>
+    <string name="home_welcome_user">Chào mừng %1$s</string>
 </resources>

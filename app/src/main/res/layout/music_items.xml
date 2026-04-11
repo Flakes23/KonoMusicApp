@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/audio_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginEnd="8dp"
+    android:background="@drawable/bg_item_rounded"
+    android:foreground="?attr/selectableItemBackground"
+    android:padding="8dp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/music_img"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:background="@drawable/bg_image_rounded"
+        android:clipToOutline="true"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/musicicon" />
+
+    <TextView
+        android:id="@+id/music_file_name"
+        style="@style/Text.Body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="6dp"
+        android:layout_toEndOf="@+id/music_img"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="File Name" />
+
+    <TextView
+        android:id="@+id/music_artist_name"
+        style="@style/Text.Subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/music_file_name"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="2dp"
+        android:layout_toEndOf="@+id/music_img"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="Artist Name" />
+
+
+</RelativeLayout>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/bg"
+    tools:context=".ui.player.NowPlayingFragmentBottom"
+    android:clickable="true"
+    android:focusable="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/card_bottom_player"
+        android:background="@drawable/bg_mini_player"
+        android:padding="8dp"
+        android:layout_margin="8dp"
+        android:elevation="6dp">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@drawable/musicicon"
+            android:id="@+id/bottom_album_art"
+            android:scaleType="centerCrop"
+            android:contentDescription="prev" />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/skip_next_bottom"
+            app:srcCompat="@drawable/ic_skip_next"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="next" />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/skip_prev_bottom"
+            app:srcCompat="@drawable/ic_skip_previous"
+            android:layout_toStartOf="@id/play_pause_miniPlayer"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="5dp"
+            android:contentDescription="previous" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_play"
+            android:layout_toStartOf="@id/skip_next_bottom"
+            android:layout_marginEnd="5dp"
+            app:fabSize="mini"
+            android:layout_centerVertical="true"
+            android:id="@+id/play_pause_miniPlayer"
+            app:backgroundTint="#FFFFFF"
+            android:outlineAmbientShadowColor="@android:color/white"
+            android:outlineSpotShadowColor="@android:color/white"
+            android:contentDescription="Playpause" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/song_name_miniPlayer"
+            style="@style/Text.Body"
+            android:text=""
+            android:layout_marginTop="6dp"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/bottom_album_art"
+            android:maxLines="1"
+            android:textStyle="bold"
+            android:layout_toStartOf="@+id/skip_prev_bottom"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/song_artist_miniPlayer"
+            style="@style/Text.Caption"
+            android:text=""
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/bottom_album_art"
+            android:layout_below="@+id/song_name_miniPlayer"
+            android:maxLines="1"
+            android:layout_toStartOf="@+id/skip_prev_bottom"/>
+
+    </RelativeLayout>
+
+</FrameLayout>

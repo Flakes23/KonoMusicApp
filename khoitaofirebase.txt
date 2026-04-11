@@ -1,0 +1,220 @@
+(async () => { 
+const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"); 
+const { 
+getFirestore, 
+doc, 
+getDoc, 
+setDoc, 
+serverTimestamp
+} = await import("https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js");
+const firebaseConfig = { 
+apiKey: "AIzaSyBVFjUwAPsiH_tHOLjVDDV8q_Rwj-nNSWo", 
+projectId: "konomusicapp-b2d98", 
+storageBucket: "konomusicapp-b2d98.firebasestorage.app", 
+appId: "1:147072327610:web:konomusic-seed" 
+}; 
+const app = initializeApp(firebaseConfig); 
+const db = getFirestore(app); 
+const songs = [ 
+{ 
+title: "50 Năm Về Sau", 
+artist: "Đặng Thanh Tuyền (lời Việt)", 
+album: "Kono Collection Vol.1", 
+genre: "Nhạc Hoa lời Việt / Ballad", 
+duration: "247000", 
+streamUrl: "https://representative-scarlet-3waco5eick.edgeone.app/50%20Năm%20Về%20Sau.mp3", 
+artworkUrl: "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/c/7/5/b/c75b641798fb079f2710004cdf4f1ca1.jpg" 
+}, 
+{ 
+title: "ANH VUI (Anh Vui Là Được)", 
+artist: "Kim Ny Ngọc", 
+album: "Kono Collection Vol.1", 
+genre: "Nhạc trẻ / Ballad", 
+duration: "231000", 
+streamUrl: "https://representative-scarlet-3waco5eick.edgeone.app/ANH%20VUI.mp3", 
+artworkUrl: "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/c/d/5/8/cd58892783da87262b0431a7d7eb8ea2.jpg" 
+}, 
+{ 
+title: "Ai Ngoài Anh", 
+artist: "Lê Bảo Bình", 
+album: "Kono Collection Vol.1", 
+genre: "Nhạc trẻ / Ballad", 
+duration: "238000", 
+streamUrl: "https://representative-scarlet-3waco5eick.edgeone.app/Ai%20Ngoài%20Anh.mp3", 
+artworkUrl: "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/e/e/2/3/ee2340d69ab29f4da3c2bdab9b33112d.jpg" 
+}, 
+{ 
+title: "Anh Đã Không Biết Cách Yêu Em", 
+artist: "Lê Bảo Bình", 
+album: "Kono Collection Vol.1", 
+genre: "Nhạc trẻ / Ballad", 
+duration: "262000", 
+streamUrl: "https://representative-scarlet-3waco5eick.edgeone.app/Anh%20Đã%20Không%20Biết%20Cách%20Yêu%20Em.mp3", 
+artworkUrl: "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/1/3/b/e/13be680283a612fe68b9a5232cd34509.jpg" 
+}, 
+{ 
+title: "Buông Đôi Tay Nhau Ra", 
+artist: "Sơn Tùng M-TP", 
+album: "Kono Collection Vol.2", 
+genre: "Pop / R&B", 
+duration: "240000", 
+streamUrl: "https://representative-scarlet-3waco5eick.edgeone.app/Buông%20Đôi%20Tay%20Nhau%20Ra.mp3", 
+artworkUrl: "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/e/d/d/a/edda9844722bd0484b317662754e7417.jpg" 
+}, 
+{ 
+title: "Bên Ấy Em Có Ai Rồi", 
+artist: "Lê Bảo Bình", 
+album: "Kono Collection Vol.2", 
+genre: "Nhạc trẻ / Ballad", 
+duration: "235000", 
+streamUrl: "https://representative-scarlet-3waco5eick.edgeone.app/Bên%20Ấy%20Em%20Có%20Ai%20Rồi.mp3", 
+artworkUrl: "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/9/6/f/9/96f9b9033f2300d102b69ca640443347.jpg" 
+}, 
+{ 
+title: "Bình Yên", 
+artist: "Vũ.", 
+album: "Kono Collection Vol.2", 
+genre: "Indie / Ballad", 
+duration: "220000", 
+streamUrl: "https://representative-scarlet-3waco5eick.edgeone.app/Bình%20Yên.mp3", 
+artworkUrl: "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/1/f/b/4/1fb4e0293b902740954f0852f8b88c23.jpg" 
+}, 
+{ 
+title: "CHẠY NGAY ĐI", 
+artist: "Sơn Tùng M-TP", 
+album: "Single Collection", 
+genre: "Pop / EDM", 
+duration: "244000", 
+streamUrl: "https://representative-scarlet-3waco5eick.edgeone.app/CHẠY%20NGAY%20ĐI.mp3", 
+artworkUrl: "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/a/6/8/b/a68b0bd411adc076ba6c3fb00203a1ee.jpg" 
+}, 
+{ 
+title: "CHỜ ANH VỀ", 
+artist: "AMEE x Bray", 
+album: "Kono Collection Vol.3", 
+genre: "Nhạc trẻ / Ballad", 
+duration: "249000", 
+streamUrl: "https://representative-scarlet-3waco5eick.edgeone.app/CHỜ%20ANH%20VỀ.mp3", 
+artworkUrl: "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/f/3/a/f/f3af831e3a5611a32e8e8ee9d3cae881.jpg" 
+}, 
+{ 
+title: "Chuyện Đôi Ta", 
+artist: "Reddy", 
+album: "Kono Collection Vol.3", 
+genre: "Nhạc trẻ / Ballad", 
+duration: "233000", 
+streamUrl: "https://representative-scarlet-3waco5eick.edgeone.app/Chuyện%20Đôi%20Ta.mp3", 
+artworkUrl: "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/0/0/a/8/00a8eb97e7f7e6cd0e3e6a2e5d86cdbd.jpg" 
+} 
+]; 
+for (let i = 0; i < songs.length; i++) { 
+const id = `seed_${String(i + 1).padStart(2, "0")}`; 
+const ref = doc(db, "songs", id); 
+const snap = await getDoc(ref); 
+const existing = snap.exists() ? snap.data() : {}; 
+const playCount = typeof existing.playCount === "number" ? existing.playCount : 0; 
+const payload = { 
+...songs[i], 
+playCount,
+updatedAt: serverTimestamp(), 
+...(snap.exists() ? {} : { createdAt: serverTimestamp() }) 
+}; 
+await setDoc(ref, payload, { merge: true }); 
+console.log(`OK: ${id} | ${songs[i].title} | playCount=${playCount}`);
+}
+console.log("DONE: Đã seed 10 bài với artist/genre chuẩn + playCount.");
+})();
+
+
+(async () => {
+  const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js");
+  const {
+    getFirestore,
+    doc,
+    getDoc,
+    getDocs,
+    setDoc,
+    collection,
+    serverTimestamp
+  } = await import("https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js");
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBVFjUwAPsiH_tHOLjVDDV8q_Rwj-nNSWo",
+    projectId: "konomusicapp-b2d98",
+    storageBucket: "konomusicapp-b2d98.firebasestorage.app",
+    appId: "1:147072327610:web:konomusic-seed"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Replace with a real Firebase Auth uid when ready.
+  const sampleUid = "demo_uid_001";
+
+  const userRef = doc(db, "users", sampleUid);
+  const userSnap = await getDoc(userRef);
+  await setDoc(
+    userRef,
+    {
+      uid: sampleUid,
+      displayName: "Kono Demo",
+      email: "demo@konomusic.app",
+      avatarUrl: "",
+      isGuest: false,
+      updatedAt: serverTimestamp(),
+      ...(userSnap.exists() ? {} : { createdAt: serverTimestamp() })
+    },
+    { merge: true }
+  );
+  console.log(`OK USER: users/${sampleUid}`);
+
+  // Use existing songs in Firestore to avoid id mismatch.
+  const songsSnap = await getDocs(collection(db, "songs"));
+  const songIds = songsSnap.docs.map((d) => d.id);
+
+  if (songIds.length === 0) {
+    console.warn("No songs found in collection 'songs'. User was created, favorites/playlist skipped.");
+    return;
+  }
+
+  const favorites = songIds.slice(0, Math.min(2, songIds.length));
+  for (const songId of favorites) {
+    const favRef = doc(db, "users", sampleUid, "favorites", songId);
+    await setDoc(
+      favRef,
+      {
+        songId,
+        source: "seed",
+        addedAt: serverTimestamp()
+      },
+      { merge: true }
+    );
+    console.log(`OK FAVORITE: users/${sampleUid}/favorites/${songId}`);
+  }
+
+  const playlistId = "playlist_demo_001";
+  const playlistSongs = songIds.slice(0, Math.min(3, songIds.length));
+  const firstSongId = playlistSongs[0];
+  const firstSong = firstSongId ? songsSnap.docs.find((d) => d.id === firstSongId)?.data() : null;
+
+  const playlistRef = doc(db, "users", sampleUid, "playlists", playlistId);
+  const playlistSnap = await getDoc(playlistRef);
+  await setDoc(
+    playlistRef,
+    {
+      playlistId,
+      name: "Yeu thich cua toi",
+      description: "Playlist mau de test feature",
+      coverUrl: firstSong?.artworkUrl || "",
+      isPublic: false,
+      songIds: playlistSongs,
+      updatedAt: serverTimestamp(),
+      ...(playlistSnap.exists() ? {} : { createdAt: serverTimestamp() })
+    },
+    { merge: true }
+  );
+  console.log(`OK PLAYLIST: users/${sampleUid}/playlists/${playlistId}`);
+
+  console.log("DONE: Seeded sample user + favorites + playlist.");
+})();
+

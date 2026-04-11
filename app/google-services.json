@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "147072327610",
+    "project_id": "konomusicapp-b2d98",
+    "storage_bucket": "konomusicapp-b2d98.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:147072327610:android:89323723b7064193e98783",
+        "android_client_info": {
+          "package_name": "com.example.konomusic"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVFjUwAPsiH_tHOLjVDDV8q_Rwj-nNSWo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

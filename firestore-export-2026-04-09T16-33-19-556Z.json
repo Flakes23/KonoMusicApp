@@ -1,0 +1,226 @@
+{
+  "exportedAt": "2026-04-09T16:33:18.280Z",
+  "songs": {
+    "50-nam-ve-sau": {
+      "playCount": 0,
+      "album": "Kono Collection Vol.1",
+      "artist": "Đặng Thanh Tuyền (lời Việt)",
+      "songId": 1,
+      "createdAt": {
+        "seconds": 1775673563,
+        "nanoseconds": 510000000
+      },
+      "streamUrl": "https://representative-scarlet-3waco5eick.edgeone.app/50%20Năm%20Về%20Sau.mp3",
+      "genre": "Nhạc Hoa lời Việt / Ballad",
+      "artworkUrl": "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/c/7/5/b/c75b641798fb079f2710004cdf4f1ca1.jpg",
+      "title": "50 Năm Về Sau",
+      "albumId": 1,
+      "artistId": 1,
+      "duration": "247000",
+      "updatedAt": {
+        "seconds": 1775673563,
+        "nanoseconds": 510000000
+      },
+      "genreId": 1
+    },
+    "ai-ngoai-anh": {
+      "playCount": 0,
+      "artist": "Lê Bảo Bình",
+      "album": "Kono Collection Vol.1",
+      "songId": 3,
+      "createdAt": {
+        "seconds": 1775673564,
+        "nanoseconds": 807000000
+      },
+      "streamUrl": "https://representative-scarlet-3waco5eick.edgeone.app/Ai%20Ngoài%20Anh.mp3",
+      "title": "Ai Ngoài Anh",
+      "genre": "Nhạc trẻ / Ballad",
+      "artworkUrl": "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/e/e/2/3/ee2340d69ab29f4da3c2bdab9b33112d.jpg",
+      "albumId": 1,
+      "artistId": 3,
+      "duration": "238000",
+      "updatedAt": {
+        "seconds": 1775673564,
+        "nanoseconds": 807000000
+      },
+      "genreId": 2
+    },
+    "anh-da-khong-biet-cach-yeu-em": {
+      "genreId": 2,
+      "updatedAt": {
+        "seconds": 1775673565,
+        "nanoseconds": 449000000
+      },
+      "duration": "262000",
+      "artistId": 3,
+      "albumId": 1,
+      "genre": "Nhạc trẻ / Ballad",
+      "artworkUrl": "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/1/3/b/e/13be680283a612fe68b9a5232cd34509.jpg",
+      "title": "Anh Đã Không Biết Cách Yêu Em",
+      "streamUrl": "https://representative-scarlet-3waco5eick.edgeone.app/Anh%20Đã%20Không%20Biết%20Cách%20Yêu%20Em.mp3",
+      "artist": "Lê Bảo Bình",
+      "album": "Kono Collection Vol.1",
+      "songId": 4,
+      "createdAt": {
+        "seconds": 1775673565,
+        "nanoseconds": 449000000
+      },
+      "playCount": 0
+    },
+    "anh-vui-anh-vui-la-duoc": {
+      "albumId": 1,
+      "duration": "231000",
+      "artistId": 2,
+      "updatedAt": {
+        "seconds": 1775673564,
+        "nanoseconds": 177000000
+      },
+      "genreId": 2,
+      "playCount": 0,
+      "songId": 2,
+      "createdAt": {
+        "seconds": 1775673564,
+        "nanoseconds": 177000000
+      },
+      "album": "Kono Collection Vol.1",
+      "artist": "Kim Ny Ngọc",
+      "streamUrl": "https://representative-scarlet-3waco5eick.edgeone.app/ANH%20VUI.mp3",
+      "artworkUrl": "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/c/d/5/8/cd58892783da87262b0431a7d7eb8ea2.jpg",
+      "genre": "Nhạc trẻ / Ballad",
+      "title": "ANH VUI (Anh Vui Là Được)"
+    },
+    "ben-ay-em-co-ai-roi": {
+      "streamUrl": "https://representative-scarlet-3waco5eick.edgeone.app/Bên%20Ấy%20Em%20Có%20Ai%20Rồi.mp3",
+      "artworkUrl": "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/9/6/f/9/96f9b9033f2300d102b69ca640443347.jpg",
+      "genre": "Nhạc trẻ / Ballad",
+      "title": "Bên Ấy Em Có Ai Rồi",
+      "playCount": 0,
+      "songId": 6,
+      "createdAt": {
+        "seconds": 1775673566,
+        "nanoseconds": 748000000
+      },
+      "album": "Kono Collection Vol.2",
+      "artist": "Lê Bảo Bình",
+      "updatedAt": {
+        "seconds": 1775673566,
+        "nanoseconds": 748000000
+      },
+      "genreId": 2,
+      "albumId": 2,
+      "duration": "235000",
+      "artistId": 3
+    },
+    "binh-yen": {
+      "genreId": 4,
+      "updatedAt": {
+        "seconds": 1775673567,
+        "nanoseconds": 373000000
+      },
+      "artistId": 5,
+      "duration": "220000",
+      "albumId": 2,
+      "genre": "Indie / Ballad",
+      "artworkUrl": "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/1/f/b/4/1fb4e0293b902740954f0852f8b88c23.jpg",
+      "title": "Bình Yên",
+      "streamUrl": "https://representative-scarlet-3waco5eick.edgeone.app/Bình%20Yên.mp3",
+      "album": "Kono Collection Vol.2",
+      "artist": "Vũ.",
+      "songId": 7,
+      "createdAt": {
+        "seconds": 1775673567,
+        "nanoseconds": 373000000
+      },
+      "playCount": 0
+    },
+    "buong-doi-tay-nhau-ra": {
+      "playCount": 0,
+      "album": "Kono Collection Vol.2",
+      "artist": "Sơn Tùng M-TP",
+      "createdAt": {
+        "seconds": 1775673566,
+        "nanoseconds": 105000000
+      },
+      "songId": 5,
+      "streamUrl": "https://representative-scarlet-3waco5eick.edgeone.app/Buông%20Đôi%20Tay%20Nhau%20Ra.mp3",
+      "title": "Buông Đôi Tay Nhau Ra",
+      "genre": "Pop / R&B",
+      "artworkUrl": "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/e/d/d/a/edda9844722bd0484b317662754e7417.jpg",
+      "albumId": 2,
+      "duration": "240000",
+      "artistId": 4,
+      "updatedAt": {
+        "seconds": 1775673566,
+        "nanoseconds": 105000000
+      },
+      "genreId": 3
+    },
+    "chay-ngay-di": {
+      "album": "Single Collection",
+      "artist": "Sơn Tùng M-TP",
+      "createdAt": {
+        "seconds": 1775673567,
+        "nanoseconds": 984000000
+      },
+      "songId": 8,
+      "playCount": 0,
+      "title": "CHẠY NGAY ĐI",
+      "genre": "Pop / EDM",
+      "artworkUrl": "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/a/6/8/b/a68b0bd411adc076ba6c3fb00203a1ee.jpg",
+      "streamUrl": "https://representative-scarlet-3waco5eick.edgeone.app/CHẠY%20NGAY%20ĐI.mp3",
+      "duration": "244000",
+      "artistId": 4,
+      "albumId": 3,
+      "genreId": 5,
+      "updatedAt": {
+        "seconds": 1775673567,
+        "nanoseconds": 984000000
+      }
+    },
+    "cho-anh-ve": {
+      "updatedAt": {
+        "seconds": 1775673568,
+        "nanoseconds": 648000000
+      },
+      "genreId": 2,
+      "albumId": 4,
+      "duration": "249000",
+      "artistId": 6,
+      "streamUrl": "https://representative-scarlet-3waco5eick.edgeone.app/CHỜ%20ANH%20VỀ.mp3",
+      "title": "CHỜ ANH VỀ",
+      "artworkUrl": "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/f/3/a/f/f3af831e3a5611a32e8e8ee9d3cae881.jpg",
+      "genre": "Nhạc trẻ / Ballad",
+      "playCount": 0,
+      "songId": 9,
+      "createdAt": {
+        "seconds": 1775673568,
+        "nanoseconds": 648000000
+      },
+      "album": "Kono Collection Vol.3",
+      "artist": "AMEE x Bray"
+    },
+    "chuyen-doi-ta": {
+      "updatedAt": {
+        "seconds": 1775673569,
+        "nanoseconds": 264000000
+      },
+      "genreId": 2,
+      "albumId": 4,
+      "duration": "233000",
+      "artistId": 7,
+      "streamUrl": "https://representative-scarlet-3waco5eick.edgeone.app/Chuyện%20Đôi%20Ta.mp3",
+      "title": "Chuyện Đôi Ta",
+      "artworkUrl": "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/0/0/a/8/00a8eb97e7f7e6cd0e3e6a2e5d86cdbd.jpg",
+      "genre": "Nhạc trẻ / Ballad",
+      "playCount": 0,
+      "songId": 10,
+      "createdAt": {
+        "seconds": 1775673569,
+        "nanoseconds": 264000000
+      },
+      "artist": "Reddy",
+      "album": "Kono Collection Vol.3"
+    }
+  },
+  "users": {}
+}

@@ -1,4 +1,4 @@
-package com.example.konomusic;
+package com.thapamusic.wetunes;
 
 import org.junit.Test;
 

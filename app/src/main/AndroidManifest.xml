@@ -1,72 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.KonoMusic"
-        android:name=".KonoMusicApp">
-
-        <!-- =============== UNIFIED LOGIN (Entry Point) =============== -->
+        android:largeHeap="true"
+        android:name=".core.app.ApplicationClass"
+        android:theme="@style/Theme.WeTunes">
         <activity
-            android:name=".UnifiedLoginActivity"
+            android:name=".ui.library.PlaylistDetailActivity"
+            android:exported="false"
+            android:parentActivityName=".core.app.MainActivity" />
+        <activity
+            android:name=".auth.RegisterActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".auth.LoginActivity"
             android:exported="true"
-            android:theme="@style/Theme.KonoMusic.Login">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.album.CategoryDetailActivity"
+            android:parentActivityName=".core.app.MainActivity"
+            android:noHistory="false" />
+        <activity android:name=".ui.player.PlayerActivity"
+            android:parentActivityName=".core.app.MainActivity"
+            android:noHistory="false"/>
+        <activity android:name=".core.app.MainActivity"
+            android:noHistory="false"
+            android:exported="false" />
 
-        <!-- Unified Register Activity -->
-        <activity
-            android:name=".UnifiedRegisterActivity"
-            android:exported="true"
-            android:theme="@style/Theme.KonoMusic.Login" />
-
-        <!-- =============== CLIENT ACTIVITIES =============== -->
-        <!-- Main Activity -->
-        <activity
-            android:name=".client.ui.activities.MainActivity"
-            android:exported="true" />
-
-        <!-- Player Activity -->
-        <activity
-            android:name=".client.ui.activities.PlayerActivity"
-            android:exported="true" />
-
-        <!-- =============== ADMIN ACTIVITIES =============== -->
-
-        <!-- Admin Main Activity -->
-        <activity
-            android:name=".admin.ui.activities.AdminMainActivity"
-            android:exported="true" />
-
-        <!-- Submit Video Activity -->
-        <activity
-            android:name=".admin.ui.activities.SubmitVideoActivity"
-            android:exported="true" />
-
-        <!-- Manage Curation Activity -->
-        <activity
-            android:name=".admin.ui.activities.ManageCurationActivity"
-            android:exported="true" />
-
-        <!-- View Analytics Activity -->
-        <activity
-            android:name=".admin.ui.activities.ViewAnalyticsActivity"
-            android:exported="true" />
-
+        <service
+            android:name=".playback.MusicService"
+            android:enabled="true"
+            android:foregroundServiceType="mediaPlayback"/>
+        <receiver
+            android:name=".playback.NotificationReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="actionprevious"/>
+                <action android:name="actionnext"/>
+                <action android:name="actionplay"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
-

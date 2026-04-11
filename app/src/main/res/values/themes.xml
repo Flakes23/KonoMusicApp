@@ -1,58 +1,25 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.KonoMusic" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary brand color -->
-        <item name="colorPrimary">@color/admin_accent</item>
-        <item name="colorPrimaryVariant">@color/admin_primary</item>
-        <item name="colorOnPrimary">@color/admin_text_primary</item>
-        <!-- Secondary brand color -->
-        <item name="colorSecondary">@color/admin_accent_light</item>
-        <item name="colorSecondaryVariant">@color/admin_accent_purple</item>
-        <item name="colorOnSecondary">@color/admin_primary</item>
-        <!-- Background colors -->
-        <item name="android:windowBackground">@color/admin_primary</item>
-        <item name="android:statusBarColor">@color/admin_primary</item>
-        <item name="android:navigationBarColor">@color/admin_primary</item>
-        <!-- Window flags -->
-        <item name="android:windowTranslucentStatus">false</item>
-        <item name="android:windowTranslucentNavigation">false</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <!-- Text appearances -->
-        <item name="android:textColorPrimary">@color/admin_text_primary</item>
-        <item name="android:textColorSecondary">@color/admin_text_secondary</item>
-    </style>
-
-    <!-- Admin Dashboard Theme (Spotify Style) -->
-    <style name="Theme.KonoMusic.Admin" parent="Theme.KonoMusic">
-        <item name="colorPrimary">@color/admin_accent</item>
-        <item name="colorPrimaryVariant">@color/admin_primary</item>
-        <item name="colorOnPrimary">@color/admin_text_primary</item>
-        <item name="colorSecondary">@color/admin_accent_light</item>
-        <item name="colorSecondaryVariant">@color/admin_accent_purple</item>
-        <item name="colorOnSecondary">@color/admin_primary</item>
-        <item name="android:windowBackground">@color/admin_primary</item>
-        <item name="android:statusBarColor">@color/admin_primary</item>
-        <item name="android:navigationBarColor">@color/admin_primary</item>
-    </style>
-
-    <!-- Login Theme -->
-    <style name="Theme.KonoMusic.Login" parent="Theme.KonoMusic">
-        <item name="android:windowBackground">@color/admin_primary</item>
-    </style>
-
-    <!-- Stat Card Style -->
-    <style name="Widget.KonoMusic.StatCard" parent="Widget.MaterialComponents.CardView">
-        <item name="cardBackgroundColor">@color/admin_card_bg</item>
-        <item name="cardCornerRadius">16dp</item>
-        <item name="cardElevation">8dp</item>
-    </style>
-
-    <!-- Quick Action Button Style -->
-    <style name="Widget.KonoMusic.QuickAction" parent="Widget.MaterialComponents.Button">
-        <item name="cornerRadius">12dp</item>
-        <item name="android:textSize">12sp</item>
-        <item name="android:paddingTop">12dp</item>
-        <item name="android:paddingBottom">12dp</item>
+    <style name="Theme.WeTunes" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/spotify_green</item>
+        <item name="colorPrimaryVariant">@color/spotify_green</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/spotify_green</item>
+        <item name="colorSecondaryVariant">@color/spotify_green</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Surface/background -->
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="android:colorBackground">@color/bg</item>
+        <item name="colorOnBackground">@color/text_primary</item>
+        <item name="android:windowBackground">@color/bg</item>
+        <!-- System bars -->
+        <item name="android:statusBarColor" tools:targetApi="l">@color/bg</item>
+        <item name="android:navigationBarColor" tools:targetApi="l">@color/bg</item>
+        <!-- Text -->
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
     </style>
 </resources>
-

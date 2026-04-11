@@ -1,30 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Text Styles -->
-    <style name="TextH1">
-        <item name="android:textSize">28sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/admin_text_primary</item>
+    <style name = "AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name = "colorPrimary">@color/black</item>
+        <item name="colorPrimaryDark">@color/black</item>
+        <item name="colorAccent">@color/white</item>
     </style>
 
-    <style name="TextH2">
-        <item name="android:textSize">22sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/admin_text_primary</item>
+    <style name="Text" />
+
+    <style name="Text.Title">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/text_primary</item>
     </style>
 
-    <style name="TextBody">
+    <style name="Text.Subtitle">
+        <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/admin_text_secondary</item>
+        <item name="android:textColor">@color/text_secondary</item>
     </style>
 
-    <!-- Button Styles -->
-    <style name="ButtonPrimary" parent="Widget.MaterialComponents.Button">
-        <item name="android:textColor">@color/admin_text_primary</item>
+    <style name="Text.Body">
+        <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="backgroundTint">@color/admin_accent</item>
+        <item name="android:textColor">@color/text_primary</item>
     </style>
-</resources>
 
+    <style name="Text.Caption">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+
+</resources>
