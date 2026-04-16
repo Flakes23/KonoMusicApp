@@ -11,26 +11,35 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FirebaseHelper {
 
     private static final String TAG = "FirebaseHelper";
     private final FirebaseFirestore db;
+    private final Map<String, String> artistNameById = new HashMap<>();
+    private final Map<String, String> albumNameById = new HashMap<>();
+    private final ArrayList<Runnable> pendingArtistCacheCallbacks = new ArrayList<>();
+    private boolean artistCacheLoaded = false;
+    private boolean artistCacheLoading = false;
+    private boolean albumCacheLoaded = false;
+    private boolean albumCacheLoading = false;
 
     public FirebaseHelper() {
         db = FirebaseFirestore.getInstance();
     }
 
     public void loadSongsFromFirebase(final OnSongsLoadedListener listener) {
-        db.collection("songs").addSnapshotListener((snapshots, error) -> {
+        ensureArtistCacheLoaded(() -> db.collection("songs").addSnapshotListener((snapshots, error) -> {
             if (error != null) {
                 Log.e(TAG, "Error loading songs", error);
                 listener.onError(error.getMessage());
                 return;
             }
             listener.onSongsLoaded(parseSongs(snapshots));
-        });
+        }));
     }
 
     public void loadCategoryItems(String type, final OnCategoryItemsLoadedListener listener) {
@@ -81,6 +90,11 @@ public class FirebaseHelper {
     }
 
     public void loadSongsByCategory(String type, String categoryId, String categoryName, final OnSongsLoadedListener listener) {
+        if (!artistCacheLoaded || !albumCacheLoaded) {
+            ensureArtistCacheLoaded(() -> loadSongsByCategory(type, categoryId, categoryName, listener));
+            return;
+        }
+
         String normalized = safeLower(type);
         if (TextUtils.isEmpty(normalized)) {
             listener.onSongsLoaded(new ArrayList<>());
@@ -222,6 +236,178 @@ public class FirebaseHelper {
                 });
     }
 
+    private void ensureArtistCacheLoaded(Runnable onReady) {
+        if (onReady != null) {
+            pendingArtistCacheCallbacks.add(onReady);
+        }
+
+        if (artistCacheLoaded && albumCacheLoaded) {
+            flushPendingArtistCacheCallbacks();
+            return;
+        }
+        startArtistCacheLoadIfNeeded();
+        startAlbumCacheLoadIfNeeded();
+    }
+
+    private void startArtistCacheLoadIfNeeded() {
+        if (artistCacheLoaded || artistCacheLoading) {
+            return;
+        }
+
+        artistCacheLoading = true;
+        db.collection("artists")
+                .get()
+                .addOnSuccessListener(this::rebuildArtistCache)
+                .addOnFailureListener(e -> Log.w(TAG, "Error loading artist cache", e))
+                .addOnCompleteListener(task -> {
+                    artistCacheLoading = false;
+                    artistCacheLoaded = true;
+                    onReferenceCachesMaybeReady();
+                });
+    }
+
+    private void startAlbumCacheLoadIfNeeded() {
+        if (albumCacheLoaded || albumCacheLoading) {
+            return;
+        }
+
+        albumCacheLoading = true;
+        db.collection("albums")
+                .get()
+                .addOnSuccessListener(this::rebuildAlbumCache)
+                .addOnFailureListener(e -> Log.w(TAG, "Error loading album cache", e))
+                .addOnCompleteListener(task -> {
+                    albumCacheLoading = false;
+                    albumCacheLoaded = true;
+                    onReferenceCachesMaybeReady();
+                });
+    }
+
+    private void onReferenceCachesMaybeReady() {
+        if (artistCacheLoaded && albumCacheLoaded) {
+            flushPendingArtistCacheCallbacks();
+            return;
+        }
+        if (!artistCacheLoaded) {
+            startArtistCacheLoadIfNeeded();
+        }
+        if (!albumCacheLoaded) {
+            startAlbumCacheLoadIfNeeded();
+        }
+    }
+
+    private void rebuildArtistCache(QuerySnapshot snapshots) {
+        artistNameById.clear();
+        if (snapshots == null) {
+            return;
+        }
+
+        for (QueryDocumentSnapshot doc : snapshots) {
+            String artistName = firstNonEmpty(getAsString(doc, "name"), getAsString(doc, "artist"));
+            if (TextUtils.isEmpty(artistName)) {
+                continue;
+            }
+
+            String artistId = firstNonEmpty(
+                    getAsString(doc, "artistId"),
+                    getAsString(doc, "id"),
+                    getAsString(doc, "docId"),
+                    doc.getId()
+            );
+            String key = normalizeIdKey(artistId);
+            if (!TextUtils.isEmpty(key)) {
+                artistNameById.put(key, artistName);
+            }
+        }
+    }
+
+    private void rebuildAlbumCache(QuerySnapshot snapshots) {
+        albumNameById.clear();
+        if (snapshots == null) {
+            return;
+        }
+
+        for (QueryDocumentSnapshot doc : snapshots) {
+            String albumName = firstNonEmpty(getAsString(doc, "name"), getAsString(doc, "album"));
+            if (TextUtils.isEmpty(albumName)) {
+                continue;
+            }
+
+            String albumId = firstNonEmpty(
+                    getAsString(doc, "albumId"),
+                    getAsString(doc, "id"),
+                    getAsString(doc, "docId"),
+                    doc.getId()
+            );
+            String key = normalizeIdKey(albumId);
+            if (!TextUtils.isEmpty(key)) {
+                albumNameById.put(key, albumName);
+            }
+        }
+    }
+
+    private void flushPendingArtistCacheCallbacks() {
+        if (pendingArtistCacheCallbacks.isEmpty()) {
+            return;
+        }
+        ArrayList<Runnable> callbacks = new ArrayList<>(pendingArtistCacheCallbacks);
+        pendingArtistCacheCallbacks.clear();
+        for (Runnable callback : callbacks) {
+            try {
+                callback.run();
+            } catch (Exception ignored) {
+            }
+        }
+    }
+
+    private String resolveArtistName(String artistFromSong, String artistId) {
+        String explicitArtist = firstNonEmpty(artistFromSong);
+        if (!TextUtils.isEmpty(explicitArtist) && !"unknown artist".equalsIgnoreCase(explicitArtist)) {
+            return explicitArtist;
+        }
+
+        String key = normalizeIdKey(artistId);
+        if (!TextUtils.isEmpty(key)) {
+            String fromCache = artistNameById.get(key);
+            if (!TextUtils.isEmpty(fromCache)) {
+                return fromCache;
+            }
+        }
+
+        return firstNonEmpty(explicitArtist, "Unknown Artist");
+    }
+
+    private String resolveAlbumName(String albumFromSong, ArrayList<String> albumIds) {
+        String explicitAlbum = firstNonEmpty(albumFromSong);
+        if (!TextUtils.isEmpty(explicitAlbum)
+                && !"unknown album".equalsIgnoreCase(explicitAlbum)
+                && !"unknown".equalsIgnoreCase(explicitAlbum)) {
+            return explicitAlbum;
+        }
+
+        if (albumIds != null) {
+            for (String rawAlbumId : albumIds) {
+                String key = normalizeIdKey(rawAlbumId);
+                if (TextUtils.isEmpty(key)) {
+                    continue;
+                }
+                String fromCache = albumNameById.get(key);
+                if (!TextUtils.isEmpty(fromCache)) {
+                    return fromCache;
+                }
+            }
+        }
+
+        return firstNonEmpty(explicitAlbum, "Unknown Album");
+    }
+
+    private String normalizeIdKey(String value) {
+        if (TextUtils.isEmpty(value)) {
+            return "";
+        }
+        return value.trim();
+    }
+
     private ArrayList<MusicFiles> parseSongs(QuerySnapshot snapshots) {
         ArrayList<MusicFiles> firebaseSongs = new ArrayList<>();
         if (snapshots == null) {
@@ -233,15 +419,19 @@ public class FirebaseHelper {
                 String docId = doc.getId();
                 String songId = firstNonEmpty(getAsString(doc, "songId"), docId);
                 String title = firstNonEmpty(getAsString(doc, "title"), "Unknown");
-                String artist = firstNonEmpty(getAsString(doc, "artist"), "Unknown Artist");
-                String album = firstNonEmpty(getAsString(doc, "album"), "Unknown Album");
+                ArrayList<String> albumId = getAsStringList(doc.get("albumId"));
+                String artistId = firstNonEmpty(getAsString(doc, "artistId"));
+                String artist = resolveArtistName(getAsString(doc, "artist"), artistId);
+                String album = resolveAlbumName(getAsString(doc, "album"), albumId);
                 String duration = firstNonEmpty(getAsString(doc, "duration"), "0");
                 String streamUrl = firstNonEmpty(getAsString(doc, "streamUrl"), "");
                 String artworkUrl = firstNonEmpty(getAsString(doc, "artworkUrl"), "");
                 String genre = firstNonEmpty(getAsString(doc, "genre"), getAsString(doc, "gender"), "Unknown");
                 Long playCount = doc.getLong("playCount");
 
-                MusicFiles musicFile = new MusicFiles(streamUrl, title, artist, album, duration, songId);
+                // id = Firestore document id for direct updates to /songs/{id}
+                MusicFiles musicFile = new MusicFiles(streamUrl, title, artist, album, duration, docId);
+                musicFile.setId(docId);
                 musicFile.setSongId(songId);
                 musicFile.setStreamUrl(streamUrl);
                 musicFile.setArtworkUrl(artworkUrl);
@@ -249,8 +439,6 @@ public class FirebaseHelper {
                 musicFile.setGenre(genre);
                 musicFile.setPlayCount(playCount != null ? playCount : 0L);
 
-                ArrayList<String> albumId = getAsStringList(doc.get("albumId"));
-                String artistId = firstNonEmpty(getAsString(doc, "artistId"));
                 String genreId = firstNonEmpty(getAsString(doc, "genreId"));
                 musicFile.setAlbumId(albumId);
                 musicFile.setArtistId(artistId);

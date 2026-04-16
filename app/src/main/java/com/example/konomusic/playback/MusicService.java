@@ -625,7 +625,7 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
                     .document(songId)
                     .update(
                             "playCount", FieldValue.increment(1),
-                            "lastPlayedAt", FieldValue.serverTimestamp()
+                            "updatedAt", FieldValue.serverTimestamp()
                     )
                     .addOnFailureListener(e -> Log.w("MusicService", "playCount update failed by id", e));
             return;
@@ -651,7 +651,7 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
                     if (!query.isEmpty()) {
                         query.getDocuments().get(0).getReference().update(
                                 "playCount", FieldValue.increment(1),
-                                "lastPlayedAt", FieldValue.serverTimestamp()
+                                "updatedAt", FieldValue.serverTimestamp()
                         ).addOnFailureListener(e -> Log.w("MusicService", "playCount update failed by streamUrl", e));
                     }
                 })

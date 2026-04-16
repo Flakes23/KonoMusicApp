@@ -2,7 +2,6 @@ package com.example.konomusic.ui.album;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.media.MediaMetadataRetriever;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,15 +16,11 @@ import com.bumptech.glide.Glide;
 import com.example.konomusic.R;
 import com.example.konomusic.core.app.MainActivity;
 import com.example.konomusic.domain.model.MusicFiles;
-import com.example.konomusic.playback.MusicService;
 import com.example.konomusic.ui.common.SongActionsHelper;
 import com.example.konomusic.ui.player.MusicAdapter;
 import com.example.konomusic.ui.player.PlayerActivity;
 
 import java.util.ArrayList;
-
-import static android.content.Context.MODE_PRIVATE;
-import static com.example.konomusic.ui.player.NowPlayingFragmentBottom.ARTWORK_URL;
 
 public class CategoryMusicAdapter extends RecyclerView.Adapter<CategoryMusicAdapter.ViewHolder> {
 
@@ -79,12 +74,6 @@ public class CategoryMusicAdapter extends RecyclerView.Adapter<CategoryMusicAdap
         holder.itemView.setOnClickListener(v -> {
             int targetIndex = findIndexInMainList(current);
 
-            SharedPreferences.Editor editor = context.getSharedPreferences(MusicService.MUSIC_LAST_PLAYED, MODE_PRIVATE).edit();
-            editor.putString(MusicService.MUSIC_FILE, current.getPath());
-            editor.putString(MusicService.ARTIST_NAME, current.getArtist());
-            editor.putString(MusicService.SONG_NAME, current.getTitle());
-            editor.putString(ARTWORK_URL, current.getArtworkUrl());
-            editor.apply();
 
             if (targetIndex >= 0) {
                 MusicAdapter.setCurrentList(MainActivity.getMusicFiles());

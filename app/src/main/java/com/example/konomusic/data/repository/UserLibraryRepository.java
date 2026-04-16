@@ -27,6 +27,12 @@ public class UserLibraryRepository {
         void onError(String message);
     }
 
+    public interface AddSongToPlaylistCallback {
+        void onResult(boolean added);
+
+        void onError(String message);
+    }
+
     public interface PlaylistsCallback {
         void onResult(ArrayList<PlaylistItem> playlists);
 
@@ -202,7 +208,7 @@ public class UserLibraryRepository {
                 .addOnFailureListener(e -> callback.onError(msg(e)));
     }
 
-    public void addSongToPlaylist(String uid, String playlistId, MusicFiles song, ResultCallback callback) {
+    public void addSongToPlaylist(String uid, String playlistId, MusicFiles song, AddSongToPlaylistCallback callback) {
         String key = songKey(song);
         if (uid == null || uid.trim().isEmpty() || playlistId == null || playlistId.trim().isEmpty() || key.isEmpty()) {
             callback.onError("Missing user, playlist or song key");
@@ -210,12 +216,22 @@ public class UserLibraryRepository {
         }
 
         DocumentReference ref = db.collection("users").document(uid).collection("playlists").document(playlistId.trim());
-        Map<String, Object> data = new HashMap<>();
-        data.put("songIds", FieldValue.arrayUnion(key));
-        data.put("updatedAt", FieldValue.serverTimestamp());
+        ref.get()
+                .addOnSuccessListener(snapshot -> {
+                    List<?> songIds = snapshot != null ? (List<?>) snapshot.get("songIds") : null;
+                    if (containsSongKey(songIds, key)) {
+                        callback.onResult(false);
+                        return;
+                    }
 
-        ref.set(data, SetOptions.merge())
-                .addOnSuccessListener(v -> callback.onSuccess())
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("songIds", FieldValue.arrayUnion(key));
+                    data.put("updatedAt", FieldValue.serverTimestamp());
+
+                    ref.set(data, SetOptions.merge())
+                            .addOnSuccessListener(v -> callback.onResult(true))
+                            .addOnFailureListener(e -> callback.onError(msg(e)));
+                })
                 .addOnFailureListener(e -> callback.onError(msg(e)));
     }
 
@@ -397,6 +413,23 @@ public class UserLibraryRepository {
 
     private String msg(Exception e) {
         return e != null && e.getMessage() != null ? e.getMessage() : "Unknown error";
+    }
+
+    private boolean containsSongKey(List<?> songIds, String key) {
+        if (songIds == null || songIds.isEmpty() || key == null || key.trim().isEmpty()) {
+            return false;
+        }
+        String cleanKey = key.trim();
+        for (Object raw : songIds) {
+            if (raw == null) {
+                continue;
+            }
+            String current = String.valueOf(raw).trim();
+            if (!current.isEmpty() && current.equals(cleanKey)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private MusicFiles parseSongDoc(QueryDocumentSnapshot doc) {

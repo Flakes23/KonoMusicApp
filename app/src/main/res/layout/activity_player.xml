@@ -107,26 +107,13 @@
         android:scrollHorizontally="true"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:id="@+id/song_album"
-        android:layout_below="@+id/song_artist"
-        style="@style/Text.Caption"
-        android:gravity="center_horizontal"
-        android:singleLine="true"
-        android:ellipsize="end"
-        android:layout_marginTop="2dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"/>
 
     <LinearLayout
         android:id="@+id/player_action_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/song_album"
-        android:layout_marginTop="8dp"
+        android:layout_below="@id/song_artist"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:orientation="horizontal">
 

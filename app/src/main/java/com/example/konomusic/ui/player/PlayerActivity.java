@@ -80,7 +80,7 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
     private static final String SONG_POSITION_PREFIX = "SONG_POS_";
     public static final String EXTRA_ATTACH_ONLY = "extra_attach_only_current_session";
 
-    TextView song_name, artist_name, duration_played, duration_total, album_name;
+    TextView song_name, artist_name, duration_played, duration_total;
     ImageView cover_art, nextBtn, prevBtn, backBtn, shuffleBtn, repeatBtn;
     ImageView blurBackground;
     private ImageView favoriteBtn;
@@ -325,7 +325,6 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
             metaData(uri);
             song_name.setText(listSongs.get(position).getTitle());
             artist_name.setText(listSongs.get(position).getArtist());
-            album_name.setText(listSongs.get(position).getAlbum());
             seekBar.setMax(musicService.getDuration() / 1000);
             syncSeekBarWithPlayer();
             startSeekbarUpdates();
@@ -358,7 +357,6 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
             metaData(uri);
             song_name.setText(listSongs.get(position).getTitle());
             artist_name.setText(listSongs.get(position).getArtist());
-            album_name.setText(listSongs.get(position).getAlbum());
             seekBar.setMax(musicService.getDuration() / 1000);
             syncSeekBarWithPlayer();
             startSeekbarUpdates();
@@ -398,7 +396,6 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
             metaData(uri);
             song_name.setText(listSongs.get(position).getTitle());
             artist_name.setText(listSongs.get(position).getArtist());
-            album_name.setText(listSongs.get(position).getAlbum());
             seekBar.setMax(musicService.getDuration() / 1000);
             syncSeekBarWithPlayer();
             startSeekbarUpdates();
@@ -433,7 +430,6 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
             metaData(uri);
             song_name.setText(listSongs.get(position).getTitle());
             artist_name.setText(listSongs.get(position).getArtist());
-            album_name.setText(listSongs.get(position).getAlbum());
             seekBar.setMax(musicService.getDuration() / 1000);
             syncSeekBarWithPlayer();
             startSeekbarUpdates();
@@ -706,7 +702,6 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
         metaData(uri);
         song_name.setText(listSongs.get(position).getTitle());
         artist_name.setText(listSongs.get(position).getArtist());
-        album_name.setText(listSongs.get(position).getAlbum());
         musicService.OnCompleted();
 
         int notifAndUiIcon;
@@ -731,7 +726,6 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
     private void initViews(){
         song_name = findViewById(R.id.song_name);
         artist_name = findViewById(R.id.song_artist);
-        album_name = findViewById(R.id.song_album);
         duration_played = findViewById(R.id.durationPlayed);
         duration_total = findViewById(R.id.durationTotal);
         cover_art = findViewById(R.id.cover_art);
@@ -813,13 +807,15 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
                 this,
                 playlists,
                 () -> showCreatePlaylistDialog(uid, song),
-                (selected, onCountUpdated) -> libraryRepository.addSongToPlaylist(uid, selected.getPlaylistId(), song, new com.example.konomusic.data.repository.UserLibraryRepository.ResultCallback() {
+                (selected, onCountUpdated) -> libraryRepository.addSongToPlaylist(uid, selected.getPlaylistId(), song, new com.example.konomusic.data.repository.UserLibraryRepository.AddSongToPlaylistCallback() {
                     @Override
-                    public void onSuccess() {
-                        if (onCountUpdated != null) {
+                    public void onResult(boolean added) {
+                        if (added && onCountUpdated != null) {
                             onCountUpdated.run();
                         }
-                        Toast.makeText(PlayerActivity.this, R.string.player_playlist_added, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PlayerActivity.this,
+                                added ? R.string.player_playlist_added : R.string.player_playlist_already_exists,
+                                Toast.LENGTH_SHORT).show();
                     }
 
                     @Override

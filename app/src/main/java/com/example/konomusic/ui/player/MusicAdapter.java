@@ -2,9 +2,7 @@ package com.example.konomusic.ui.player;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.media.MediaMetadataRetriever;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,15 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.konomusic.R;
 import com.example.konomusic.domain.model.MusicFiles;
-import com.example.konomusic.playback.MusicService;
 import com.example.konomusic.ui.common.SongActionsHelper;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-
-import static android.content.Context.MODE_PRIVATE;
-import static com.example.konomusic.ui.player.NowPlayingFragmentBottom.ARTWORK_URL;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyVieHolder> {
 
@@ -82,28 +76,10 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyVieHolder>
             if (adapterPos == RecyclerView.NO_POSITION) {
                 return;
             }
-            MusicFiles selected = mFiles.get(adapterPos);
-            boolean attachOnly = shouldAttachToCurrentSession(selected);
-
-            if (!attachOnly) {
-                SharedPreferences.Editor editor = mContext.getSharedPreferences(MusicService.MUSIC_LAST_PLAYED, MODE_PRIVATE).edit();
-                editor.putString(MusicService.MUSIC_FILE, selected.getPath());
-                editor.putString(MusicService.ARTIST_NAME, selected.getArtist());
-                editor.putString(MusicService.SONG_NAME, selected.getTitle());
-                editor.putString(ARTWORK_URL, selected.getArtworkUrl());
-                editor.apply();
-            }
 
             Intent intent = new Intent(mContext, PlayerActivity.class);
             intent.putExtra("musicAdapter", "MusicAdapt");
             intent.putExtra("positionMfiles", adapterPos);
-            intent.putExtra(PlayerActivity.EXTRA_ATTACH_ONLY, attachOnly);
-            if (attachOnly && PlayerActivity.passMusicService != null) {
-                try {
-                    intent.putExtra(MusicService.EXTRA_START_POSITION_MS, PlayerActivity.passMusicService.getCurrentPosition());
-                } catch (Exception ignored) {
-                }
-            }
             mContext.startActivity(intent);
 
             if (NowPlayingFragmentBottom.playPauseBtn != null) {
@@ -170,38 +146,6 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyVieHolder>
         notifyDataSetChanged();
     }
 
-    private boolean shouldAttachToCurrentSession(MusicFiles selected) {
-        if (selected == null || PlayerActivity.passMusicService == null) {
-            return false;
-        }
-
-        SharedPreferences pref = mContext.getSharedPreferences(MusicService.MUSIC_LAST_PLAYED, MODE_PRIVATE);
-        String currentPath = pref.getString(MusicService.MUSIC_FILE, null);
-        String currentTitle = pref.getString(MusicService.SONG_NAME, null);
-        String currentArtist = pref.getString(MusicService.ARTIST_NAME, null);
-
-        String selectedPath = selected.getPath();
-        boolean samePath = normalizePath(selectedPath) != null
-                && normalizePath(selectedPath).equals(normalizePath(currentPath));
-
-        String selectedTitle = selected.getTitle() == null ? "" : selected.getTitle().trim();
-        String selectedArtist = selected.getArtist() == null ? "" : selected.getArtist().trim();
-        String nowTitle = currentTitle == null ? "" : currentTitle.trim();
-        String nowArtist = currentArtist == null ? "" : currentArtist.trim();
-        boolean sameMeta = !selectedTitle.isEmpty() && !selectedArtist.isEmpty()
-                && selectedTitle.equalsIgnoreCase(nowTitle)
-                && selectedArtist.equalsIgnoreCase(nowArtist);
-
-        return samePath || sameMeta;
-    }
-
-    private String normalizePath(String value) {
-        if (value == null) {
-            return null;
-        }
-        String decoded = Uri.decode(value).trim();
-        return decoded.isEmpty() ? null : decoded;
-    }
 
     public static void setCurrentList(ArrayList<MusicFiles> files) {
         mFiles = files;

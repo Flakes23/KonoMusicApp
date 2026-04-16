@@ -21,7 +21,6 @@ import com.example.konomusic.ui.home.HomeTagAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -76,7 +75,7 @@ public class AlbumFragment extends Fragment {
         super.onResume();
         recommendationSeed = System.nanoTime();
         recommendationCacheKey = "";
-        setupAlbumSections();
+        loadRemoteAlbums();
     }
 
     private void loadRemoteAlbums() {
@@ -120,70 +119,92 @@ public class AlbumFragment extends Fragment {
     }
 
     private ArrayList<CategoryItem> buildRankedAlbums(ArrayList<MusicFiles> songs) {
+        RemoteAlbumIndex remoteIndex = buildRemoteAlbumIndex();
+
         Map<String, AlbumStat> stats = new LinkedHashMap<>();
         for (MusicFiles song : songs) {
             if (song == null || song.getAlbum() == null || song.getAlbum().trim().isEmpty()) {
                 continue;
             }
-            String albumName = song.getAlbum().trim();
-            String key = albumName.toLowerCase();
+            CategoryItem remote = remoteIndex.resolve(song);
+            if (!remoteIndex.isEmpty() && remote == null) {
+                continue;
+            }
+
+            String key = remote != null
+                    ? canonicalAlbumKey(remote)
+                    : canonicalAlbumNameKey(song.getAlbum());
+            if (key.isEmpty()) {
+                continue;
+            }
+
+            String albumName = remote != null && remote.getName() != null && !remote.getName().trim().isEmpty()
+                    ? remote.getName().trim()
+                    : song.getAlbum().trim();
             AlbumStat stat = stats.get(key);
             if (stat == null) {
                 stat = new AlbumStat();
                 stat.name = albumName;
-                stat.id = firstNonEmpty(song.getPrimaryAlbumId());
-                stat.imageUrl = firstNonEmpty(song.getAlbumImageUrl(), song.getArtworkUrl());
+                stat.id = firstNonEmpty(
+                        remote != null ? remote.getId() : "",
+                        song.getPrimaryAlbumId(),
+                        albumName
+                );
+                stat.imageUrl = firstNonEmpty(
+                        remote != null ? remote.getImageUrl() : "",
+                        song.getAlbumImageUrl(),
+                        song.getArtworkUrl()
+                );
                 stats.put(key, stat);
             }
             stat.playCount += song.getPlayCount();
             if (stat.id.isEmpty()) {
-                stat.id = firstNonEmpty(song.getPrimaryAlbumId());
+                stat.id = firstNonEmpty(remote != null ? remote.getId() : "", song.getPrimaryAlbumId());
             }
             if (stat.imageUrl.isEmpty()) {
-                stat.imageUrl = firstNonEmpty(song.getAlbumImageUrl(), song.getArtworkUrl());
+                stat.imageUrl = firstNonEmpty(
+                        remote != null ? remote.getImageUrl() : "",
+                        song.getAlbumImageUrl(),
+                        song.getArtworkUrl()
+                );
             }
         }
 
-        Map<String, CategoryItem> remoteByName = new HashMap<>();
         for (CategoryItem item : remoteAlbumItems) {
-            if (item == null || item.getName() == null || item.getName().trim().isEmpty()) {
+            String key = canonicalAlbumKey(item);
+            if (key.isEmpty()) {
                 continue;
             }
-            remoteByName.put(item.getName().trim().toLowerCase(), item);
-            if (!stats.containsKey(item.getName().trim().toLowerCase())) {
+            if (!stats.containsKey(key)) {
                 AlbumStat stat = new AlbumStat();
                 stat.name = item.getName().trim();
                 stat.id = firstNonEmpty(item.getId());
                 stat.imageUrl = firstNonEmpty(item.getImageUrl());
                 stat.playCount = 0L;
-                stats.put(item.getName().trim().toLowerCase(), stat);
+                stats.put(key, stat);
             }
         }
 
+        ArrayList<Map.Entry<String, AlbumStat>> rankedEntries = new ArrayList<>(stats.entrySet());
+        Collections.sort(rankedEntries, (left, right) -> {
+            int cmp = Long.compare(right.getValue().playCount, left.getValue().playCount);
+            if (cmp != 0) {
+                return cmp;
+            }
+            return left.getValue().name.compareToIgnoreCase(right.getValue().name);
+        });
+
         ArrayList<CategoryItem> out = new ArrayList<>();
-        for (Map.Entry<String, AlbumStat> entry : stats.entrySet()) {
+        for (Map.Entry<String, AlbumStat> entry : rankedEntries) {
             AlbumStat stat = entry.getValue();
-            CategoryItem remote = remoteByName.get(entry.getKey());
+            CategoryItem remote = remoteIndex.byCanonical.get(entry.getKey());
             String albumId = firstNonEmpty(remote != null ? remote.getId() : "", stat.id, stat.name);
             String imageUrl = firstNonEmpty(remote != null ? remote.getImageUrl() : "", stat.imageUrl);
             out.add(new CategoryItem(albumId, stat.name, imageUrl, "album"));
         }
 
-        Collections.sort(out, new Comparator<CategoryItem>() {
-            @Override
-            public int compare(CategoryItem left, CategoryItem right) {
-                long l = stats.get(left.getName().trim().toLowerCase()).playCount;
-                long r = stats.get(right.getName().trim().toLowerCase()).playCount;
-                int cmp = Long.compare(r, l);
-                if (cmp != 0) {
-                    return cmp;
-                }
-                return left.getName().compareToIgnoreCase(right.getName());
-            }
-        });
-
-        if (!out.isEmpty()) {
-            long maxPlayCount = stats.get(out.get(0).getName().trim().toLowerCase()).playCount;
+        if (!rankedEntries.isEmpty()) {
+            long maxPlayCount = rankedEntries.get(0).getValue().playCount;
             if (maxPlayCount == 0L) {
                 Collections.shuffle(out);
             }
@@ -284,30 +305,93 @@ public class AlbumFragment extends Fragment {
     }
 
     private ArrayList<MusicFiles> buildAlbumRows(ArrayList<MusicFiles> songs) {
+        RemoteAlbumIndex remoteIndex = buildRemoteAlbumIndex();
         Map<String, MusicFiles> bestByAlbum = new LinkedHashMap<>();
 
         if (songs != null) {
             for (MusicFiles song : songs) {
-                mergeBestAlbumCandidate(bestByAlbum, song);
+                mergeBestAlbumCandidate(bestByAlbum, song, remoteIndex);
             }
         }
 
         ArrayList<MusicFiles> mainAlbums = MainActivity.getAlbums();
         if (mainAlbums != null) {
             for (MusicFiles albumSong : mainAlbums) {
-                mergeBestAlbumCandidate(bestByAlbum, albumSong);
+                mergeBestAlbumCandidate(bestByAlbum, albumSong, remoteIndex);
             }
         }
 
-        return new ArrayList<>(bestByAlbum.values());
+        if (remoteIndex.isEmpty()) {
+            return new ArrayList<>(bestByAlbum.values());
+        }
+
+        ArrayList<MusicFiles> out = new ArrayList<>();
+        for (CategoryItem remote : remoteAlbumItems) {
+            if (remote == null || remote.getName() == null || remote.getName().trim().isEmpty()) {
+                continue;
+            }
+            String key = canonicalAlbumKey(remote);
+            if (key.isEmpty()) {
+                continue;
+            }
+            MusicFiles candidate = bestByAlbum.get(key);
+            if (candidate != null) {
+                if (firstNonEmpty(candidate.getAlbumImageUrl()).isEmpty()) {
+                    candidate.setAlbumImageUrl(firstNonEmpty(remote.getImageUrl(), candidate.getArtworkUrl()));
+                }
+                if (firstNonEmpty(candidate.getPrimaryAlbumId()).isEmpty()) {
+                    candidate.setAlbumId(firstNonEmpty(remote.getId()));
+                }
+                out.add(candidate);
+                continue;
+            }
+
+            MusicFiles placeholder = new MusicFiles();
+            placeholder.setAlbum(remote.getName().trim());
+            placeholder.setArtist("Unknown Artist");
+            placeholder.setAlbumId(firstNonEmpty(remote.getId()));
+            placeholder.setAlbumImageUrl(firstNonEmpty(remote.getImageUrl()));
+            placeholder.setArtworkUrl(firstNonEmpty(remote.getImageUrl()));
+            placeholder.setFromFirebase(true);
+            out.add(placeholder);
+        }
+        return out;
     }
 
-    private void mergeBestAlbumCandidate(Map<String, MusicFiles> bestByAlbum, MusicFiles candidate) {
+    private RemoteAlbumIndex buildRemoteAlbumIndex() {
+        RemoteAlbumIndex out = new RemoteAlbumIndex();
+        for (CategoryItem item : remoteAlbumItems) {
+            if (item == null || item.getName() == null || item.getName().trim().isEmpty()) {
+                continue;
+            }
+            String nameKey = canonicalAlbumNameKey(item.getName());
+            String id = firstNonEmpty(item.getId());
+            String canonicalKey = canonicalAlbumKey(item);
+
+            if (!nameKey.isEmpty()) {
+                out.byName.put(nameKey, item);
+            }
+            if (!id.isEmpty()) {
+                out.byId.put(id, item);
+            }
+            if (!canonicalKey.isEmpty()) {
+                out.byCanonical.put(canonicalKey, item);
+            }
+        }
+        return out;
+    }
+
+    private void mergeBestAlbumCandidate(Map<String, MusicFiles> bestByAlbum,
+                                         MusicFiles candidate,
+                                         RemoteAlbumIndex remoteIndex) {
         if (candidate == null || candidate.getAlbum() == null || candidate.getAlbum().trim().isEmpty()) {
             return;
         }
 
-        String key = candidate.getAlbum().trim().toLowerCase();
+        String key = resolveAlbumKey(candidate, remoteIndex);
+        if (key.isEmpty()) {
+            return;
+        }
         MusicFiles current = bestByAlbum.get(key);
         if (current == null) {
             bestByAlbum.put(key, candidate);
@@ -319,6 +403,33 @@ public class AlbumFragment extends Fragment {
         if (candidateScore > currentScore) {
             bestByAlbum.put(key, candidate);
         }
+    }
+
+    private String resolveAlbumKey(MusicFiles song, RemoteAlbumIndex remoteIndex) {
+        if (song == null) {
+            return "";
+        }
+        if (remoteIndex != null && !remoteIndex.isEmpty()) {
+            CategoryItem remote = remoteIndex.resolve(song);
+            return canonicalAlbumKey(remote);
+        }
+        return canonicalAlbumNameKey(song.getAlbum());
+    }
+
+    private String canonicalAlbumKey(CategoryItem item) {
+        if (item == null) {
+            return "";
+        }
+        String id = firstNonEmpty(item.getId());
+        if (!id.isEmpty()) {
+            return "id:" + id;
+        }
+        return canonicalAlbumNameKey(item.getName());
+    }
+
+    private String canonicalAlbumNameKey(String name) {
+        String value = firstNonEmpty(name);
+        return value.isEmpty() ? "" : "name:" + value.toLowerCase();
     }
 
     private int scoreAlbumVisual(MusicFiles item) {
@@ -376,5 +487,33 @@ public class AlbumFragment extends Fragment {
         String name = "";
         String imageUrl = "";
         long playCount = 0L;
+    }
+
+    private static class RemoteAlbumIndex {
+        final Map<String, CategoryItem> byId = new HashMap<>();
+        final Map<String, CategoryItem> byName = new HashMap<>();
+        final Map<String, CategoryItem> byCanonical = new HashMap<>();
+
+        boolean isEmpty() {
+            return byId.isEmpty() && byName.isEmpty();
+        }
+
+        CategoryItem resolve(MusicFiles song) {
+            if (song == null) {
+                return null;
+            }
+            String albumId = song.getPrimaryAlbumId() == null ? "" : song.getPrimaryAlbumId().trim();
+            if (!albumId.isEmpty()) {
+                CategoryItem byAlbumId = byId.get(albumId);
+                if (byAlbumId != null) {
+                    return byAlbumId;
+                }
+            }
+            String albumName = song.getAlbum() == null ? "" : song.getAlbum().trim().toLowerCase();
+            if (albumName.isEmpty()) {
+                return null;
+            }
+            return byName.get("name:" + albumName);
+        }
     }
 }

@@ -95,13 +95,15 @@ public final class SongActionsHelper {
                 context,
                 playlists,
                 () -> showCreatePlaylistDialog(context, repository, uid, song),
-                (selected, onCountUpdated) -> repository.addSongToPlaylist(uid, selected.getPlaylistId(), song, new UserLibraryRepository.ResultCallback() {
+                (selected, onCountUpdated) -> repository.addSongToPlaylist(uid, selected.getPlaylistId(), song, new UserLibraryRepository.AddSongToPlaylistCallback() {
                     @Override
-                    public void onSuccess() {
-                        if (onCountUpdated != null) {
+                    public void onResult(boolean added) {
+                        if (added && onCountUpdated != null) {
                             onCountUpdated.run();
                         }
-                        Toast.makeText(context, R.string.player_playlist_added, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,
+                                added ? R.string.player_playlist_added : R.string.player_playlist_already_exists,
+                                Toast.LENGTH_SHORT).show();
                     }
 
                     @Override

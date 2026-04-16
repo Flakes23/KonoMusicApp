@@ -45,6 +45,7 @@
     <string name="player_playlist_new_title">Tạo playlist</string>
     <string name="player_playlist_created_and_added">Đã tạo playlist và thêm bài hát</string>
     <string name="player_playlist_added">Đã thêm bài hát vào playlist</string>
+    <string name="player_playlist_already_exists">Bài hát đã có trong playlist</string>
     <string name="player_login_required">Vui lòng đăng nhập để dùng tính năng này</string>
     <string name="song_actions_title">Tùy chọn bài hát</string>
 
@@ -64,7 +65,11 @@
     <string name="library_remove_song_success">Đã xóa bài khỏi playlist</string>
     <string name="library_rename_playlist">Đổi tên playlist</string>
     <string name="library_delete_playlist">Xóa playlist</string>
+    <string name="library_delete_playlist_short">Xóa</string>
     <string name="library_delete_playlist_confirm">Bạn có chắc muốn xóa "%1$s"?</string>
+    <string name="library_delete_dialog_title">Xóa playlist này?</string>
+    <string name="library_delete_dialog_action">Xóa playlist</string>
+    <string name="library_delete_dialog_cancel">Hủy</string>
     <string name="library_rename_success">Đổi tên playlist thành công</string>
     <string name="library_delete_success">Đã xóa playlist</string>
 
